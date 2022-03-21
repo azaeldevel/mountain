@@ -48,7 +48,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 LT_INIT([win32-dll])
 
-PKG_CHECK_MODULES(OCTETOS_MOUNTAIN,octetos-core)
+PKG_CHECK_MODULES(OCTETOS_MOUNTAIN,octetos-core libconfig++)
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
 AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))

@@ -23,8 +23,13 @@
 
 int main()
 {
-	std::cout << "Hello world!" << std::endl;
-	oct::mont::Database db;
+	oct::mont::Database db("tests/DB");
+	
+	
+	std::cout << "version : " << db.get_version().toString() << std::endl;
+	
+	std::cout << "name : " << db.get_name() << std::endl;
+	
 	
 	return 0;
 }

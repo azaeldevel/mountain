@@ -2,6 +2,10 @@
 
 SUBDIRS = src po
 
+if WITH_TESTS
+SUBDIRS +=  tests
+endif
+
 dist_doc_DATA = \
 	README \
 	COPYING \

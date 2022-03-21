@@ -1,6 +1,7 @@
 
 #include <CUnit/Basic.h>
 
+#include "../src/Database.hh"
 
 static std::string bdir;
 
@@ -20,7 +21,9 @@ int clean(void)
 
 void testDeveloping()
 {
-
+	oct::mont::Database db("../../tests/DB");
+	
+	CU_ASSERT(strcmp(db.get_name(),"testdb") == 0);
 }
 
 
@@ -37,7 +40,7 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 	
-	if ((NULL == CU_add_test(pSuite, "Criterios de comparación semver v1.0.0", testDeveloping)))
+	if ((NULL == CU_add_test(pSuite, "Developing", testDeveloping)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
