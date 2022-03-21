@@ -30,6 +30,10 @@ int main()
 	
 	std::cout << "name : " << db.get_name() << std::endl;
 	
+	for(const oct::mont::Table& table : db.get_tables())
+	{
+		std::cout << "\tTable : " << table.get_name() << std::endl;
+	}
 	
 	return 0;
 }

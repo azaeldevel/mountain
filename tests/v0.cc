@@ -1,5 +1,6 @@
 
 #include <CUnit/Basic.h>
+#include <iostream>
 
 #include "../src/Database.hh"
 
@@ -24,6 +25,11 @@ void testDeveloping()
 	oct::mont::Database db("../../tests/DB");
 	
 	CU_ASSERT(strcmp(db.get_name(),"testdb") == 0);
+	CU_ASSERT(db.get_tables().size() == 3);
+	for(const oct::mont::Table& table : db.get_tables())
+	{
+		//std::cout << "\tTable : " << table.get_name() << std::endl;
+	}
 }
 
 
@@ -34,7 +40,7 @@ int main(int argc, char *argv[])
 	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
 	CU_pSuite pSuite = NULL;
 	pSuite = CU_add_suite("Testing Mountain DB", init, clean);
-	if (NULL == pSuite) 
+	if (NULL == pSuite)
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
