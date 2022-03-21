@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <string.h>
 
 
 #include "Exception.hh"
@@ -10,8 +11,16 @@ namespace oct::mont
 
 
 
-Field::Field(Field&& field)
+Field::Field() : length(0)
 {
+}
+const char* Field::get_name()const
+{
+	return name.c_str();
+}
+const char* Field::get_type()const
+{
+	return type.c_str();
 }
 
 Field::Field(const std::filesystem::path& tb)
@@ -19,7 +28,7 @@ Field::Field(const std::filesystem::path& tb)
 	load(tb);
 }
 
-void Field::load(const std::filesystem::path& table)
+void Field::load(const std::filesystem::path& field)
 {
 	/*if(not std::filesystem::exists(table)) throw Exception(Exception::NO_EXISTS_TB,__FILE__,__LINE__);
 	
@@ -66,6 +75,49 @@ void Table::load(const std::filesystem::path& table)
 	singular = (const char*)config.lookup("singular");
 	const libconfig::Setting& root = config.getRoot();
 	length = root["fields"].getLength();
+	Field* temp_field;
+	Index count_fileds = 0;
+	if(not config.exists("fields")) throw Exception(Exception::NO_EXISTS_FIELDS_INFO,__FILE__,__LINE__);
+	if(not root["fields"].isList()) throw Exception(Exception::FAILED_FIELD_INFO_FORMAT_FIELD,__FILE__,__LINE__);
+	for(const libconfig::Setting& field : root["fields"])
+	{	
+		//std::cout << "\t\tField" << std::endl;	
+		//std::cout << "\tField name : " << (*field).getName() << std::endl;
+		if(not field.isGroup()) throw Exception(Exception::FAILED_FIELD_INFO_FORMAT_FIELD_CONTENT,__FILE__,__LINE__);
+		
+		count_fileds++;
+		//std::cout << "\tField : " << count_fileds << std::endl;
+		fields.push_back(Field());
+		temp_field = &fields.back();
+		//std::cout << "\ttext : " << (*field).c_str() << std::endl;
+		if(field.exists("name")) 
+		{			
+			temp_field->name = (const char*)field.lookup("name");
+			//std::cout << "\tField found : " << temp_field->name << std::endl;
+		}
+		else
+		{
+			throw Exception(Exception::NOT_FOUND_FIELD_NAME,__FILE__,__LINE__);
+		}
+		if(field.exists("type")) 
+		{
+			temp_field->type = (const char*)field.lookup("type");
+			//std::cout << "\tField found : " << temp_field->type << std::endl;
+		}
+		else
+		{
+			throw Exception(Exception::NOT_FOUND_FIELD_TYPE,__FILE__,__LINE__);
+		}
+		if(field.exists("pk")) 
+		{
+			temp_field->pk = field.lookup("pk");
+			//std::cout << "\tField found : " << temp_field->type << std::endl;
+		}
+		else
+		{
+			temp_field->pk = false;
+		}
+	}
 }
 	
 const char* Table::get_name()const
@@ -79,6 +131,11 @@ const char* Table::get_singular()const
 Index Table::get_length()const
 {
 	return length;
+}
+
+const std::list<Field>& Table::get_fields()const
+{
+	return fields;
 }
 	
 	
@@ -95,7 +152,7 @@ const char* Database::get_name() const
 {
 	return name.c_str();
 }
-std::list<Table>& Database::get_tables()
+const std::list<Table>& Database::get_tables() const
 {
 	return tables;
 }

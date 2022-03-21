@@ -2,18 +2,19 @@ singular="Person";
 fields=
 (
 	{
-		type = "unsigned int";
 		name = "id";
-		index = "pk";
+		type = "unsigned int";
+		pk = true;
+		auto = true;
 	},
 	{
-		type = "char";
-		length = 30;
 		name = "name";
-	},
-	{
 		type = "char";
 		length = 30;
+	},
+	{
 		name = "ap";
+		type = "char";
+		length = 30;
 	}
 );

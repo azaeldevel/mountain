@@ -4,17 +4,12 @@
 
 #include "../src/Database.hh"
 
-static std::string bdir;
 
 int init(void)
 {
 	return 0;
 }
 
-/* The suite cleanup function.
- * Closes the temporary file used by the tests.
- * Returns zero on success, non-zero otherwise.
- */
 int clean(void)
 {
 	return 0;
@@ -26,10 +21,14 @@ void testDeveloping()
 	
 	CU_ASSERT(strcmp(db.get_name(),"testdb") == 0);
 	CU_ASSERT(db.get_tables().size() == 3);
-	/*for(const oct::mont::Table& table : db.get_tables())
+	for(const oct::mont::Table& table : db.get_tables())
 	{
 		std::cout << "\tTable : " << table.get_name() << ", " << table.get_length() << std::endl;
-	}*/
+		for(const oct::mont::Field& field : table.get_fields())
+		{
+			std::cout << "\t\t" << field.get_name() << "," << field.get_type() << std::endl;
+		}
+	}
 }
 
 
