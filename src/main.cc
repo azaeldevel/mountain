@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * main.cc
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
@@ -19,9 +18,14 @@
 
 #include <iostream>
 
+
+#include "Database.hh"
+
 int main()
 {
 	std::cout << "Hello world!" << std::endl;
+	oct::mont::Database db;
+	
 	return 0;
 }
 

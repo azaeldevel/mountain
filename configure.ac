@@ -1,6 +1,6 @@
 
 
-AC_INIT(mountain, 0.1.0-alpha)
+AC_INIT(mountain, 0.1.0-alpha,azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -9,8 +9,6 @@ AM_INIT_AUTOMAKE([1.11])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CXX
-
-
 
 
 dnl ***************************************************************************
@@ -50,12 +48,18 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 LT_INIT([win32-dll])
 
+PKG_CHECK_MODULES(OCTETOS_MOUNTAIN,octetos-core)
 
-
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
+fi
 
 
 AC_OUTPUT([
 Makefile
 src/Makefile
 po/Makefile.in
+tests/Makefile
 ])

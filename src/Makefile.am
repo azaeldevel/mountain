@@ -9,14 +9,20 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = mountain
+lib_LTLIBRARIES = liboctetos-mountain.la
 
-mountain_SOURCES = \
-	main.cc
+noinst_PROGRAMS = mountain
 
+
+
+
+liboctetos_mountain_la_CXXFLAGS = $(OCTETOS_MOUNTAIN_CFLGAS)  
+liboctetos_mountain_la_LIBADD = $(OCTETOS_MOUNTAIN_LIBS) 
+liboctetos_mountain_la_SOURCES = Database.cc
+
+mountain_SOURCES = main.cc
 mountain_LDFLAGS = 
-
-mountain_LDADD = 
+mountain_LDADD = liboctetos-mountain.la
 
 
 if NATIVE_WIN32
