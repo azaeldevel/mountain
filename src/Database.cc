@@ -2,12 +2,13 @@
 #include <iostream>
 
 
+#include "Exception.hh"
 #include "Database.hh"
 
 namespace oct::mont
 {
 
-Table::Table(Table&& table) : name(std::move(table.name))
+Table::Table(Table&& table) : name(std::move(table.name)),length(table.length)
 {
 }
 
@@ -18,21 +19,32 @@ Table::Table(const std::filesystem::path& tb)
 
 void Table::load(const std::filesystem::path& table)
 {
-	name = table.filename().string();
+	if(not std::filesystem::exists(table)) throw Exception(Exception::NO_EXISTS_TB,__FILE__,__LINE__);
 	
+	name = table.filename().string();	
 	std::filesystem::path table_header = table / ".table";
+	if(not std::filesystem::exists(table_header)) throw Exception(Exception::NO_EXISTS_HEADER_TB,__FILE__,__LINE__);
 	
-	//libconfig::Config config;
-	//config.readFile(table_header.string().c_str());
+	libconfig::Config config;
+	//std::cout << "table_header : " << table_header << "\n";
+	config.readFile(table_header);
 	
-	//name = (const char*)config.lookup("name");
+	singular = (const char*)config.lookup("singular");	
+	config.lookupValue("length",length);
 }
 	
 const char* Table::get_name()const
 {
 	return name.c_str();
 }
-	
+const char* Table::get_singular()const
+{
+	return singular.c_str();
+}
+Index Table::get_length()const
+{
+	return length;
+}
 	
 	
 Database::Database(const std::filesystem::path& db)
@@ -55,15 +67,15 @@ std::list<Table>& Database::get_tables()
 
 void Database::load(const std::filesystem::path& db)
 {
-	libconfig::Config config;
+	if(not std::filesystem::exists(db)) throw Exception(Exception::NO_EXISTS_DB,__FILE__,__LINE__);
+	
 	std::filesystem::path db_header = db / ".db";
-	config.readFile(db_header.string().c_str());
+	if(not std::filesystem::exists(db_header)) throw Exception(Exception::NO_EXISTS_HEADER_DB,__FILE__,__LINE__);
 	
-	
+	libconfig::Config config;
+	config.readFile(db_header);
 	version.set(config.lookup("version"));
-	
 	name = (const char*)config.lookup("name");
-	
 	
 	//load tables
 	for (auto const& dir_entry : std::filesystem::directory_iterator{db})

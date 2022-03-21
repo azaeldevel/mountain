@@ -11,6 +11,8 @@
 
 namespace oct::mont
 {
+typedef unsigned int Index;
+
 
 class Table
 {
@@ -21,9 +23,13 @@ public:
 	void load(const std::filesystem::path&);
 	
 	const char* get_name()const;
+	const char* get_singular()const;
+	Index get_length()const;
 	
 private:
 	std::string name;
+	std::string singular;
+	Index length;
 };
 
 class Database

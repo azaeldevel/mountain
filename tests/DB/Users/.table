@@ -1,0 +1,3 @@
+singular="User";
+type="char";
+length=8;

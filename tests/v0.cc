@@ -28,7 +28,7 @@ void testDeveloping()
 	CU_ASSERT(db.get_tables().size() == 3);
 	for(const oct::mont::Table& table : db.get_tables())
 	{
-		//std::cout << "\tTable : " << table.get_name() << std::endl;
+		std::cout << "\tTable : " << table.get_name() << "," << table.get_length() << std::endl;
 	}
 }
 

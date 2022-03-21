@@ -18,7 +18,7 @@ noinst_PROGRAMS = mountain
 
 liboctetos_mountain_la_CXXFLAGS = $(OCTETOS_MOUNTAIN_CFLGAS)  
 liboctetos_mountain_la_LIBADD = $(OCTETOS_MOUNTAIN_LIBS) 
-liboctetos_mountain_la_SOURCES = Database.cc
+liboctetos_mountain_la_SOURCES = Database.cc Exception.cc
 
 mountain_SOURCES = main.cc
 mountain_LDFLAGS = 
