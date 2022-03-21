@@ -30,7 +30,9 @@ const char* Exception::what () const throw ()
 	case NO_EXISTS_HEADER_TB:
 		return "No existe encabezado de Tabla";	
 	case NO_EXISTS_HEADER_DB:
-		return "No existe encabezado de Base de Datos";		
+		return "No existe encabezado de Base de Datos";	
+	case NO_CORRUPT_DB_COUNT_TB:
+		return "El conteo de las tablas no coincide";		
 	default:
 		return "Error desconocido";
 	}

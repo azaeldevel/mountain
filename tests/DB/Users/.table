@@ -1,3 +1,19 @@
 singular="User";
-type="char";
-length=8;
+fields=
+(
+
+	{
+		type = "unsigned int";
+		name = "id";
+	},
+	{
+		type = "char";
+		length = 10;
+		name = "name";
+	},
+	{
+		type = "char";
+		length = 32;
+		name = "password";
+	}
+);

@@ -13,7 +13,21 @@ namespace oct::mont
 {
 typedef unsigned int Index;
 
+class Field
+{
 
+public:
+	Field(const std::filesystem::path&);
+	Field(Field&&);
+
+	const char* get_name()const;
+
+	void load(const std::filesystem::path&);
+
+private:
+	std::string name;
+
+};
 class Table
 {
 public:
@@ -40,13 +54,14 @@ public:
 	const oct::core::Semver& get_version()const;
 	const char* get_name()const;
 	std::list<Table>& get_tables();
+	Index get_length()const;
 
 	void load(const std::filesystem::path&);
 private:
 	oct::core::Semver version;
 	std::string name;
 	std::list<Table> tables;
-
+	Index length;
 };
 
 

@@ -17,6 +17,7 @@ public:
 		NO_EXISTS_TB,
 		NO_EXISTS_HEADER_TB,
 		NO_EXISTS_HEADER_DB,
+		NO_CORRUPT_DB_COUNT_TB,
 	};
 	
 public:

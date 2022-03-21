@@ -1,3 +1,19 @@
 singular="Person";
-type="char";
-length=32;
+fields=
+(
+	{
+		type = "unsigned int";
+		name = "id";
+		index = "pk";
+	},
+	{
+		type = "char";
+		length = 30;
+		name = "name";
+	},
+	{
+		type = "char";
+		length = 30;
+		name = "ap";
+	}
+);

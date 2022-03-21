@@ -1,3 +1,26 @@
 singular="Version";
-type="char";
-length=10;
+fields=
+(
+	{
+		type = "unsigned int";
+		name = "id";
+		index = "pk";
+	},
+	{
+		type = "unsigned short";
+		name = "major";
+	},
+	{
+		type = "unsigned short";
+		name = "minor";
+	},
+	{
+		type = "unsigned short";
+		name = "path";
+	},
+	{
+		type = "char";
+		name = "stage";
+		length = 20;
+	}
+);
