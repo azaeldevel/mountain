@@ -1,3 +1,8 @@
 # List of source files containing translatable strings.
+#https://developer-old.gnome.org/gtkmm-tutorial/stable/sec-internationalization-intro.html.en
 
-src/main.c
+#src/Exception.hh
+#src/Exception.cc
+src/Database.hh
+src/Database.cc
+
