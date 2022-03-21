@@ -2,24 +2,24 @@ singular="Version";
 fields=
 (
 	{
-		type = "unsigned int";
+		type = 6;
 		name = "id";
 		index = "pk";
 	},
 	{
-		type = "unsigned short";
+		type = 4;
 		name = "major";
 	},
 	{
-		type = "unsigned short";
+		type = 4;
 		name = "minor";
 	},
 	{
-		type = "unsigned short";
+		type = 4;
 		name = "path";
 	},
 	{
-		type = "char";
+		type = 2;
 		name = "stage";
 		length = 20;
 	}

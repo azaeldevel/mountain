@@ -44,7 +44,9 @@ const char* Exception::what () const throw ()
 	case NOT_FOUND_FIELD_NAME:
 		return "No se encontro el nombre del campo";	
 	case NOT_FOUND_FIELD_TYPE:
-		return "No se encontro el tipo del campo";	
+		return "No se encontro el tipo del campo";		
+	case UNKNOW_TYPE_FIELD:
+		return "Tipo de data desconocido";	
 	default:
 		return "Error desconocido";
 	}

@@ -3,18 +3,18 @@ fields=
 (
 	{
 		name = "id";
-		type = "unsigned int";
+		type = 6;
 		pk = true;
-		auto = true;
+		auto_inc = true;
 	},
 	{
 		name = "name";
-		type = "char";
+		type = 2;
 		length = 30;
 	},
 	{
 		name = "ap";
-		type = "char";
+		type = 2;
 		length = 30;
 	}
 );

@@ -3,16 +3,16 @@ fields=
 (
 
 	{
-		type = "unsigned int";
+		type = 6;
 		name = "id";
 	},
 	{
-		type = "char";
+		type = 2;
 		length = 10;
 		name = "name";
 	},
 	{
-		type = "char";
+		type = 2;
 		length = 32;
 		name = "password";
 	}
