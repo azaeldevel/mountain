@@ -71,7 +71,11 @@ const char* Exception::what () const throw ()
 	case NO_FOUND_TABLE:
 		return "No se encontro la tabla especificada";	
 	case NO_FOUND_FIELD:
-		return "No se encontro el campo especificado";	
+		return "No se encontro el campo especificado";
+	case FAIL_BUILD_GENERATION:
+		return "Fallo en el conerador de contenedor.";	
+	case FAIL_ON_MAPPING_FIEL:
+		return "Fallo en el mapeo de los campos";
 	default:
 		return "Error desconocido";
 	}

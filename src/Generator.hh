@@ -15,14 +15,20 @@ public:
 	Generator(const Database& db);
 	/**
 	*\brief Genera contenedor para los campos especificados
-	*
+	*\param table nombre de la table
+	*\param  fileds nombre de los cmapos
+	*\param result variable donde se coloca el resutado
 	*/
-	void generate(const char*,const std::vector<char*>&);
+	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::string& result,bool human_readable);	
+	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::ofstream& result,bool human_readable);
+	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::filesystem::path& result,bool human_readable);
+
+private:
 	/**
-	*\brief Genera contenedor para los campos especificados
+	*\brief Mapea el nombre del campo con el objeto Field
 	*
 	*/
-	void maping_fields(const char*,const std::vector<char*>&);
+	bool maping_fields(const char*,const std::vector<const char*>&,std::vector<const Field*>& result);
 
 private:
 	const Database* database;
