@@ -4,7 +4,7 @@
 namespace oct::mont
 {
 	
-Exception::Exception()
+Exception::Exception() : _subject(NULL)
 {
 
 }
@@ -12,11 +12,32 @@ Exception::Exception(unsigned int c) : oct::Exception(c)
 {
 
 }
+Exception::Exception(unsigned int c,const char* s) : oct::Exception(c),_subject(s)
+{
+
+}
 Exception::Exception(unsigned int c,const char* f, unsigned int l) : oct::Exception(c,f,l)
 {
 
 }
+Exception::Exception(unsigned int c,const char* s,const char* f, unsigned int l) : oct::Exception(c,f,l),_subject(s)
+{
 
+}
+
+const char* Exception::subject()const throw ()
+{
+	return _subject;
+}
+std::string Exception::describe() const throw ()
+{
+	if(not _subject) return what();
+	
+	std::string msg = what();
+	msg += "\n\t devido a ";
+	msg += _subject;
+	return msg;
+}
 const char* Exception::what () const throw ()
 {
 	switch(code)
@@ -46,7 +67,11 @@ const char* Exception::what () const throw ()
 	case NOT_FOUND_FIELD_TYPE:
 		return "No se encontro el tipo del campo";		
 	case UNKNOW_TYPE_FIELD:
-		return "Tipo de data desconocido";	
+		return "Tipo de data desconocido";		
+	case NO_FOUND_TABLE:
+		return "No se encontro la tabla especificada";	
+	case NO_FOUND_FIELD:
+		return "No se encontro el campo especificado";	
 	default:
 		return "Error desconocido";
 	}

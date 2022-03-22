@@ -26,6 +26,11 @@ public:
 	Table(Table&&);
 
 	void load(const std::filesystem::path&);
+	/**
+	*\brief Busca un campo por nombre
+	*\return NULL si no lo encuenatr, o el puntero conrespodiente si lo encuentra
+	*/
+	const Field* find(const char*)const;
 	
 	const char* get_name()const;
 	const char* get_singular()const;
@@ -59,7 +64,7 @@ public:
 	/**
 	*\brief determina si el tamano del campo length puede ser deducido a parter de type, solo un campo char es variable
 	*/
-	static bool is_fixed(Type);
+	//static bool is_fixed(Type);
 public:
 	Field(const std::filesystem::path&);
 	Field();
@@ -97,6 +102,7 @@ public:
 	Index get_length()const;
 
 	void load(const std::filesystem::path&);
+	const Table* find(const char*)const;
 private:
 	oct::core::Semver version;
 	std::string name;

@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <string.h>
+
 
 #include "Exception.hh"
 #include "Database.hh"
@@ -105,7 +107,15 @@ void Table::load(const std::filesystem::path& table)
 		i_field++;
 	}
 }
+const Field* Table::find(const char* name)const
+{
+	for(const Field& field : fields)
+	{
+		if(strcmp(field.get_name(), name) == 0) return &field;
+	}
 	
+	return NULL;
+}
 const char* Table::get_name()const
 {
 	return name.c_str();

@@ -67,5 +67,14 @@ void Database::load(const std::filesystem::path& db)
 	if(i_dir_entry != tables.size()) throw Exception(Exception::NO_CORRUPT_DB_COUNT_TB,__FILE__,__LINE__);
 	
 }
+const Table* Database::find(const char* name)const
+{
+	for(const Table& table : tables)
+	{
+		if(strcmp(table.get_name(), name) == 0) return &table;
+	}
+	
+	return NULL;
+}
 
 }

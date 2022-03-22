@@ -25,16 +25,23 @@ public:
 		NOT_FOUND_FIELD_NAME,
 		NOT_FOUND_FIELD_TYPE,
 		UNKNOW_TYPE_FIELD,
+		NO_FOUND_TABLE,
+		NO_FOUND_FIELD,
 	};
 	
 public:
 	Exception();
 	Exception(unsigned int code);
+	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
+	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
 
 	virtual const char* what () const throw ();
+	virtual const char* subject()const throw ();
+	virtual std::string describe() const throw ();
 
 private:
+	const char* _subject;
 };
 
 }

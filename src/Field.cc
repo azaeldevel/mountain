@@ -55,7 +55,7 @@ Index Field::type_size(Type type)
 	
 	return 0;
 }
-bool Field::is_fixed(Type type)
+/*bool Field::is_fixed(Type type)
 {
 	switch(type)
 	{
@@ -72,7 +72,7 @@ bool Field::is_fixed(Type type)
 	}
 	
 	throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
-}
+}*/
 Field::Field() : length(0)
 {
 }
