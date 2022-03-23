@@ -1,47 +1,30 @@
 
-#include <iostream>
 
+#include "v0.hh"
 
+int main(int argc, char *argv[])
+{  
 
-int main()
-{
-	oct::core::Shell shell;
+	/* initialize the CUnit test registry */
+	if (CUE_SUCCESS != CU_initialize_registry()) return CU_get_error();
+	CU_pSuite pSuite = NULL;
+	pSuite = CU_add_suite("Testing Mountain DB", init, clean);
+	if (NULL == pSuite)
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
+	if ((NULL == CU_add_test(pSuite, "Developing", testDeveloping)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+			
 
-	std::cout << "work directory : " << shell.cwd() << "\n";
-
-	if(shell.exists("bin"))
-    {
-        std::cout << "Existe el directorio\n";
-    }
-    else
-    {
-        std::cout << "No existe el directorio\n";
-    }
-
-    if(shell.exists("configure.ac"))
-    {
-        std::cout << "Existe el configure.ac\n";
-    }
-    else
-    {
-        std::cout << "No existe el configure.ac\n";
-    }
-
-
-    if(shell.exists("configure2.ac"))
-    {
-        std::cout << "Existe el configure2.ac\n";
-    }
-    else
-    {
-        std::cout << "No existe el configure2.ac\n";
-    }
-
-    std::string logDirectory = "bin";
-    std::string strDay = std::to_string(oct::core::getDayID());
-    std::string strTime = std::to_string(oct::core::getTimeID());
-    logDirectory = logDirectory + "/" + strDay + strTime;
-    shell.mkdir(logDirectory);
-
-	return EXIT_SUCCESS;
+	/* Run all tests using the CUnit Basic interface */
+	CU_basic_set_mode(CU_BRM_VERBOSE);
+	CU_basic_run_tests();
+	CU_cleanup_registry();
+	return CU_get_error();	
 }
