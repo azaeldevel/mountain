@@ -129,8 +129,10 @@ bool Jupiter::generate_autotools_cc() const
 	actual_file << "\n";
 	actual_file << "AC_PROG_CXX";
 	actual_file << "\n";
-	actual_file << "LT_INIT";
-	actual_file << "\n";
+	actual_file << "LT_INIT\n";
+	
+	actual_file << "PKG_CHECK_MODULES(SATURNO,octetos-saturno)\n";
+	
 	actual_file << "AC_OUTPUT([";
 	actual_file << "Makefile";
 	actual_file << " src/Makefile";
