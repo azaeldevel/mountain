@@ -29,6 +29,7 @@ public:
 		NO_FOUND_FIELD,
 		FAIL_BUILD_GENERATION,
 		FAIL_ON_MAPPING_FIEL,
+		FAIL_BUILD_GENERATION_NO_ARRAY_POSIBLE,
 	};
 	
 public:
@@ -36,14 +37,9 @@ public:
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
+	Exception(unsigned int code,const char* filename, unsigned int line,const char* subject);
 
 	virtual const char* what () const throw ();
-	virtual const char* subject()const throw ();
-	virtual std::string describe() const throw ();
-
-private:
-	const char* _subject;
 };
 
 }

@@ -15,7 +15,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& strfiled
 {
 	std::vector<const Field*> fields;
 	
-	if(not maping_fields(table,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
+	if(not maping_fields(table,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
 	
 	result = "struct ";
 	result += name;
@@ -23,12 +23,20 @@ bool Generator::build(const char* table,const std::vector<const char*>& strfiled
 	result += "{";
 	for(unsigned int i = 0; i < fields.size(); i++)
 	{
-		if(not fields[i]) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
+		if(not fields[i]) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
 		
 		if(human_readable) result += "\n";
 		result += fields[i]->get_type_cstr();
 		result += " ";
 		result += fields[i]->get_name();
+		if(fields[i]->get_length() != Field::type_size(fields[i]->get_type()))
+		{
+			unsigned int length;
+			length = fields[i]->get_length() / Field::type_size(fields[i]->get_type());
+			result += "[";
+			result += std::to_string(length);
+			result += "]";
+		}
 		result += ";";		
 	}
 	if(human_readable) result += "\n";
@@ -40,7 +48,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& strfiled
 bool Generator::maping_fields(const char* strtable,const std::vector<const char*>& strfields,std::vector<const Field*>& result)
 {
 	const Table* table = database->find(strtable);
-	if(not table) throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__); 
+	if(not table) throw Exception(Exception::NO_FOUND_TABLE,__FILE__,__LINE__,strtable); 
 	
 	//std::vector<const Field*> fields(strfields.size());	
 	unsigned int i = 0;
@@ -49,7 +57,7 @@ bool Generator::maping_fields(const char* strtable,const std::vector<const char*
 	for(const char* strfield : strfields)
 	{
 		field = table->find(strfield);
-		if(not field) throw Exception(Exception::NO_FOUND_FIELD,strfield,__FILE__,__LINE__);
+		if(not field) throw Exception(Exception::NO_FOUND_FIELD,__FILE__,__LINE__,strfield);
 		
 		result[i] = field;
 		

@@ -4,7 +4,7 @@
 namespace oct::mont
 {
 	
-Exception::Exception() : _subject(NULL)
+Exception::Exception()
 {
 
 }
@@ -12,7 +12,7 @@ Exception::Exception(unsigned int c) : oct::Exception(c)
 {
 
 }
-Exception::Exception(unsigned int c,const char* s) : oct::Exception(c),_subject(s)
+Exception::Exception(unsigned int c,const char* s) : oct::Exception(c,s)
 {
 
 }
@@ -20,27 +20,15 @@ Exception::Exception(unsigned int c,const char* f, unsigned int l) : oct::Except
 {
 
 }
-Exception::Exception(unsigned int c,const char* s,const char* f, unsigned int l) : oct::Exception(c,f,l),_subject(s)
+Exception::Exception(unsigned int c,const char* f, unsigned int l,const char* s) : oct::Exception(c,f,l,s)
 {
 
 }
 
-const char* Exception::subject()const throw ()
-{
-	return _subject;
-}
-std::string Exception::describe() const throw ()
-{
-	if(not _subject) return what();
-	
-	std::string msg = what();
-	msg += "\n\t devido a ";
-	msg += _subject;
-	return msg;
-}
+
 const char* Exception::what () const throw ()
 {
-	switch(code)
+	switch(code())
 	{
 	case Errors::NO_ERROR:
 		return "No error";
@@ -76,6 +64,8 @@ const char* Exception::what () const throw ()
 		return "Fallo en el conerador de contenedor.";	
 	case FAIL_ON_MAPPING_FIEL:
 		return "Fallo en el mapeo de los campos";
+	case FAIL_BUILD_GENERATION_NO_ARRAY_POSIBLE:
+		return "No se puede crear un arreglo para el campo indicado";
 	default:
 		return "Error desconocido";
 	}

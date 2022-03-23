@@ -80,14 +80,35 @@ void testDeveloping()
 	}
 	
 	CU_ASSERT(fields.size() > 0);
-	const std::string result_patter = "struct testPersons{unsigned int id;char name;char ap;};";
+	const std::string result_pattern = "struct testPersons{unsigned int id;char name[30];char ap[30];};";
 	std::string strcontainer;
 	Generator gen(db);
 	gen.build("Persons",fields,"testPersons",strcontainer,false);
 	//std::cout << strcontainer << "\n";
-	if(result_patter.compare(strcontainer) == 0)CU_ASSERT(true)
+	if(result_pattern.compare(strcontainer) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
+	
+	const std::string result_pattern2 = "struct testPersons{unsigned int id;char name[30];};";
+	std::vector<const char*> fields_person2(fields);
+	fields_person2.pop_back();
+	std::string strcontainer2;
+	gen.build("Persons",fields_person2,"testPersons",strcontainer2,false);
+	std::cout << strcontainer2 << "\n";
+	if(result_pattern2.compare(strcontainer2) == 0) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	
+	std::vector<const char*> fields_person3(fields);
+	fields_person3[fields_person2.size()/2] = "failfield";
+	try
+	{
+		gen.build("Persons",fields_person3,"testPersons",strcontainer2,false);
+	}
+	catch(const Exception& ex)
+	{
+		CU_ASSERT( ex.code() == FIELD::NO_FOUND_FIELD);
+	}
 }
+
 
 
 int main(int argc, char *argv[])
