@@ -95,10 +95,11 @@ void testDeveloping()
 	else CU_ASSERT(false);
 	
 	std::vector<const char*> fields_person3(fields);
+	std::string strcontainer3;
 	fields_person3[fields_person2.size()/2] = "failfield";
 	try
 	{
-		gen.build("Persons",fields_person3,"testPersons",strcontainer2,false);
+		gen.build("Persons",fields_person3,"testPersons",strcontainer3,false);
 	}
 	catch(const Exception& ex)
 	{
