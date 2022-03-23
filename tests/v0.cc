@@ -90,7 +90,7 @@ void testDeveloping()
 	fields_person2.pop_back();
 	std::string strcontainer2;
 	gen.build("Persons",fields_person2,"testPersons",strcontainer2,false);
-	std::cout << strcontainer2 << "\n";
+	//std::cout << strcontainer2 << "\n";
 	if(result_pattern2.compare(strcontainer2) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	
