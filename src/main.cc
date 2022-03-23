@@ -1,5 +1,4 @@
 /*
- * main.cc
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
  * 
  * mountain is free software: you can redistribute it and/or modify it

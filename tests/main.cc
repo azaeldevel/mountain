@@ -1,6 +1,7 @@
 
 
 #include "v0.hh"
+#include "jupiter.hh"
 
 int main(int argc, char *argv[])
 {  
@@ -20,8 +21,15 @@ int main(int argc, char *argv[])
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-			
+		
+	CU_pSuite pSuite_Jupiter = CU_add_suite("Testing Jupiter", jupiter_init, jupiter_clean);
 
+	if ((NULL == CU_add_test(pSuite_Jupiter, "Jupiter developing", jupiter_developing)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
 	/* Run all tests using the CUnit Basic interface */
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
