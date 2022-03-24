@@ -93,7 +93,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& strfiled
 {
 	std::vector<const Field*> fields;
 	
-	if(not maping_fields(table,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
+	if(not maping_fields(table,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
 	
 	result = "struct ";
 	result += name;
@@ -101,7 +101,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& strfiled
 	result += "{";
 	for(unsigned int i = 0; i < fields.size(); i++)
 	{
-		if(not fields[i]) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
+		if(not fields[i]) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
 		
 		if(human_readable) result += "\n";
 		result += fields[i]->get_type_cstr();
@@ -127,7 +127,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& fields,c
 	std::string res;
 	
 	bool ret = build(table,fields,name,res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
+	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
 	
 	result << "\n" << res;
 	
@@ -140,7 +140,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& fields,c
 	std::string res;
 	
 	bool ret = build(table,fields,name,res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__,table);
+	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
 	
 	std::ofstream fres;
 	fres.open(result);	
@@ -154,7 +154,7 @@ bool Generator::build(const char* table,const std::vector<const char*>& fields,c
 bool Generator::maping_fields(const char* strtable,const std::vector<const char*>& strfields,std::vector<const Field*>& result)
 {
 	const Table* table = database->find(strtable);
-	if(not table) throw Exception(Exception::NO_FOUND_TABLE,__FILE__,__LINE__,strtable); 
+	if(not table) throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__); 
 	
 	std::vector<const Field*> fields(strfields.size());	
 	unsigned int i = 0;
@@ -163,7 +163,7 @@ bool Generator::maping_fields(const char* strtable,const std::vector<const char*
 	for(const char* strfield : strfields)
 	{
 		field = table->find(strfield);
-		if(not field) throw Exception(Exception::NO_FOUND_FIELD,__FILE__,__LINE__,strfield);
+		if(not field) throw Exception(Exception::NO_FOUND_FIELD,strfield,__FILE__,__LINE__);
 		
 		result[i] = field;
 		

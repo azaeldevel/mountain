@@ -26,19 +26,19 @@ Exception::Exception()
 {
 
 }
-Exception::Exception(unsigned int c) : oct::Exception(c)
+Exception::Exception(unsigned int c) : core::v3::Exception(c)
 {
 
 }
-Exception::Exception(unsigned int c,const char* s) : oct::Exception(c,s)
+Exception::Exception(unsigned int c,const char* s) : core::v3::Exception(c,s)
 {
 
 }
-Exception::Exception(unsigned int c,const char* f, unsigned int l) : oct::Exception(c,f,l)
+Exception::Exception(unsigned int c,const char* f, unsigned int l) : core::v3::Exception(c,f,l)
 {
 
 }
-Exception::Exception(unsigned int c,const char* f, unsigned int l,const char* s) : oct::Exception(c,f,l,s)
+Exception::Exception(unsigned int c,const char* s,const char* f, unsigned int l) : core::v3::Exception(c,s,f,l)
 {
 
 }
@@ -84,6 +84,8 @@ const char* Exception::what () const throw ()
 		return "Fallo en el mapeo de los campos";
 	case FAIL_BUILD_GENERATION_NO_ARRAY_POSIBLE:
 		return "No se puede crear un arreglo para el campo indicado";
+	case NOT_SET_TYPE_FIELD:
+		return "No se ha asignado el tipo del campo";
 	default:
 		return "Error desconocido";
 	}

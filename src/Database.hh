@@ -65,7 +65,7 @@ class Field
 {
 friend void Table::load(const std::filesystem::path&);
 public:
-	enum Type
+	enum class Type
 	{
 		NONE,
 		BOOL,/*1*/
@@ -75,13 +75,14 @@ public:
 		INT,/*5*/
 		UNSIGNED_INT,/*6*/
 		FLOAT,/*7*/
+		STRING,
 	};
 	static const char* type_cstr(Type);
 	static Index type_size(Type);
 	/**
 	*\brief determina si el tamano del campo length puede ser deducido a parter de type, solo un campo char es variable
 	*/
-	//static bool is_fixed(Type);
+	static bool is_fixed(Type);
 public:
 	Field(const std::filesystem::path&);
 	Field();

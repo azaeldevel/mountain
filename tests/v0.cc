@@ -81,7 +81,7 @@ void testDeveloping()
 	std::string strcontainer;
 	Generator gen(db);
 	gen.build("Persons",fields,"testPersons",strcontainer,false);
-	std::cout << strcontainer << "\n";
+	//std::cout << strcontainer << "\n";
 	if(result_pattern.compare(strcontainer) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	

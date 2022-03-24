@@ -24,7 +24,7 @@
 namespace oct::mont
 {
 
-class Exception : public oct::Exception
+class Exception : public core::v3::Exception
 {
 public:
 	enum Errors
@@ -47,6 +47,7 @@ public:
 		FAIL_BUILD_GENERATION,
 		FAIL_ON_MAPPING_FIEL,
 		FAIL_BUILD_GENERATION_NO_ARRAY_POSIBLE,
+		NOT_SET_TYPE_FIELD,
 	};
 	
 public:
@@ -54,7 +55,7 @@ public:
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	Exception(unsigned int code,const char* filename, unsigned int line,const char* subject);
+	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
 
 	virtual const char* what () const throw ();
 };

@@ -27,19 +27,21 @@ const char* Field::type_cstr(Type type)
 {
 	switch(type)
 	{
-	case Field::BOOL:
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
 		return "bool";
-	case Field::CHAR:
+	case Type::CHAR:
 		return "char";
-	case Field::SHORT:
+	case Type::SHORT:
 		return "short";
-	case Field::UNSIGNED_SHORT:
+	case Type::UNSIGNED_SHORT:
 		return "unsigned short";
-	case Field::INT:
+	case Type::INT:
 		return "int";
-	case Field::UNSIGNED_INT:
+	case Type::UNSIGNED_INT:
 		return "unsigned int";
-	case Field::FLOAT:
+	case Type::FLOAT:
 		return "float";
 	default:
 		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
@@ -51,19 +53,21 @@ Index Field::type_size(Type type)
 {
 	switch(type)
 	{
-	case Field::BOOL:
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
 		return sizeof(bool);
-	case Field::CHAR:
+	case Type::CHAR:
 		return sizeof(char);
-	case Field::SHORT:
+	case Type::SHORT:
 		return sizeof(short);
-	case Field::UNSIGNED_SHORT:
+	case Type::UNSIGNED_SHORT:
 		return sizeof(unsigned short);
-	case Field::INT:
+	case Type::INT:
 		return sizeof(int);
-	case Field::UNSIGNED_INT:
+	case Type::UNSIGNED_INT:
 		return sizeof(unsigned int);
-	case Field::FLOAT:
+	case Type::FLOAT:
 		return sizeof(float);
 	default:
 		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
@@ -71,24 +75,28 @@ Index Field::type_size(Type type)
 	
 	return 0;
 }
-/*bool Field::is_fixed(Type type)
+bool Field::is_fixed(Type type)
 {
 	switch(type)
 	{
-	case Field::BOOL:
-	case Field::CHAR:
-	case Field::SHORT:
-	case Field::UNSIGNED_SHORT:
-	case Field::INT:
-	case Field::UNSIGNED_INT:
-	case Field::FLOAT:
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
+	case Type::CHAR:
+	case Type::SHORT:
+	case Type::UNSIGNED_SHORT:
+	case Type::INT:
+	case Type::UNSIGNED_INT:
+	case Type::FLOAT:
 		return true;
+	case Type::STRING:
+		return false;
 	default:
 		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
 	}
 	
 	throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
-}*/
+}
 Field::Field() : length(0)
 {
 }
