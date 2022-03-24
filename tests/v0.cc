@@ -27,7 +27,7 @@ void testDeveloping()
 	
 	CU_ASSERT(strcmp(db.get_name(),"testdb") == 0);
 	CU_ASSERT(db.get_tables().size() == 3);
-	std::vector<const char*> fields;
+	std::list<const char*> fields;
 	unsigned int i_fields = 0;
 	for(const oct::mont::Table& table : db.get_tables())
 	{
@@ -44,7 +44,7 @@ void testDeveloping()
 				std::cout << "\t\ttable.get_fields().size() es " << table.get_fields().size() << std::endl;
 				CU_ASSERT(false);
 			}
-			fields.resize(table.get_fields().size());
+			
 			for(const oct::mont::Field& field : table.get_fields())
 			{
 				//std::cout << "\t\t" << field.get_name() << "," << field.get_type() << std::endl;
@@ -55,21 +55,21 @@ void testDeveloping()
 					CU_ASSERT(field.get_pk());
 					CU_ASSERT(field.get_length() == sizeof(unsigned int));
 					CU_ASSERT(field.get_auto_inc());
-					fields[i_fields] = field.get_name();
+					fields.push_back(field.get_name());
 				}
 				if(strcmp(field.get_name(),"name") == 0)
 				{
 					CU_ASSERT(field.get_type() == oct::mont::Field::Type::CHAR);
 					CU_ASSERT(field.get_pk() == false);
 					CU_ASSERT(field.get_length() == 30);
-					fields[i_fields] = field.get_name();
+					fields.push_back(field.get_name());
 				}	
 				if(strcmp(field.get_name(),"ap") == 0)
 				{
 					CU_ASSERT(field.get_type() == oct::mont::Field::Type::CHAR);
 					CU_ASSERT(field.get_pk() == false);
 					CU_ASSERT(field.get_length() == 30);
-					fields[i_fields] = field.get_name();
+					fields.push_back(field.get_name());
 				}
 				i_fields++;
 			}
@@ -79,27 +79,29 @@ void testDeveloping()
 	CU_ASSERT(fields.size() > 0);
 	const std::string result_pattern = "struct testPersons{unsigned int id;char name[30];char ap[30];};";
 	std::string strcontainer;
-	Generator gen(db);
-	gen.container("Persons","testPersons",fields,strcontainer,false);
+	Generator gen(db,oct::jup::Jupiter::Lingua::CC);
+	gen.container("Persons","testPersons",fields,strcontainer);
 	//std::cout << strcontainer << "\n";
 	if(result_pattern.compare(strcontainer) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	
 	const std::string result_pattern2 = "struct testPersons{unsigned int id;char name[30];};";
-	std::vector<const char*> fields_person2(fields);
+	std::list<const char*> fields_person2(fields);
 	fields_person2.pop_back();
 	std::string strcontainer2;
-	gen.container("Persons","testPersons",fields_person2,strcontainer2,false);
+	gen.container("Persons","testPersons",fields_person2,strcontainer2);
 	//std::cout << strcontainer2 << "\n";
 	if(result_pattern2.compare(strcontainer2) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	
-	std::vector<const char*> fields_person3(fields);
+	std::list<const char*> fields_person3(fields);
 	std::string strcontainer3;
-	fields_person3[fields_person2.size()/2] = "failfield";
+	std::list<const char*>::iterator it3 = fields_person2.begin();
+	it3++;
+	(*it3)="failfield";
 	try
 	{
-		gen.container("Persons","testPersons",fields_person3,strcontainer3,false);
+		gen.container("Persons","testPersons",fields_person3,strcontainer3);
 	}
 	catch(const Exception& ex)
 	{
@@ -107,11 +109,11 @@ void testDeveloping()
 	}
 	
 	std::string strcontainer4;
-	gen.container(strcontainer4,false);
+	gen.container(strcontainer4);
 	//std::cout << strcontainer4 << "\n";
 	
 	std::filesystem::path pathcontainer1 = "gen1.hh";
 	if(std::filesystem::exists(pathcontainer1)) std::filesystem::remove(pathcontainer1);
-	gen.container(pathcontainer1,false);
+	gen.container(pathcontainer1);
 }
 
