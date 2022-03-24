@@ -94,12 +94,13 @@ public:
 	Type get_type()const;
 	const char* get_type_cstr()const;
 	Index get_length()const;
-	bool get_pk()const;
+	bool is_pk()const;
+	bool is_index()const;
 	/**
 	*\brief valor valido solo si pk es true, en otro caso su valor no es incicializado
 	*\return true si se activa el auto incremento de la llave priamria, falso en otro caso
 	*/
-	bool get_auto_inc()const;
+	bool is_auto_inc()const;
 
 	void load(const std::filesystem::path&);
 
@@ -123,6 +124,7 @@ private:
 	Type type;
 	Index length;
 	bool pk;
+	bool index;
 	
 	bool auto_inc;//auto incrementto de primary key
 };

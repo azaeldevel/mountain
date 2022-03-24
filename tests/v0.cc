@@ -52,22 +52,22 @@ void testDeveloping()
 				if(strcmp(field.get_name(),"id") == 0)
 				{
 					CU_ASSERT(field.get_type() == oct::mont::Field::Type::UNSIGNED_INT);
-					CU_ASSERT(field.get_pk());
+					CU_ASSERT(field.is_pk());
 					CU_ASSERT(field.get_length() == sizeof(unsigned int));
-					CU_ASSERT(field.get_auto_inc());
+					CU_ASSERT(field.is_auto_inc());
 					fields.push_back(field.get_name());
 				}
 				if(strcmp(field.get_name(),"name") == 0)
 				{
 					CU_ASSERT(field.get_type() == oct::mont::Field::Type::CHAR);
-					CU_ASSERT(field.get_pk() == false);
+					CU_ASSERT(field.is_pk() == false);
 					CU_ASSERT(field.get_length() == 30);
 					fields.push_back(field.get_name());
 				}	
 				if(strcmp(field.get_name(),"ap") == 0)
 				{
 					CU_ASSERT(field.get_type() == oct::mont::Field::Type::CHAR);
-					CU_ASSERT(field.get_pk() == false);
+					CU_ASSERT(field.is_pk() == false);
 					CU_ASSERT(field.get_length() == 30);
 					fields.push_back(field.get_name());
 				}

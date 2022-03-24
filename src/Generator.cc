@@ -17,6 +17,7 @@
  */
 
 #include <list>
+#include <fstream>
 
 #include "Generator.hh"
 #include "Exception.hh"
@@ -53,7 +54,57 @@ bool Generator::maping_fields(const char* strtable,const std::list<const char*>&
 }
 
 
-
+void Generator::indexs(const Table& table, std::ofstream& result)const
+{
+	unsigned int count_index;
+	//index
+	count_index = 0;
+	std::string res;
+	
+	for(const Field& field : table.get_fields())
+	{
+		if(field.is_index()) 
+		{
+			count_index++;	
+			container(field,NULL,res);		
+		}
+	}
+	if(count_index > 0)
+	{
+		result << "struct " << table.get_singular() << "_index";
+		if(human_readable) result << "\n{\n";
+		else result << "{";
+		result << res;
+		if(count_index > 1) throw Exception(Exception::FAIL_GENERATION_ENGINE_MULTKEY,__FILE__,__LINE__);
+		if(human_readable) result << "\n};";
+		else result << "};";
+	}
+	
+	
+	//primary key
+	count_index = 0;
+	for(const Field& field : table.get_fields())
+	{
+		if(field.is_pk()) 
+		{
+			count_index++;
+			container(field,NULL,res);		
+		}
+	}
+	if(count_index > 0)
+	{
+		result << "struct " << table.get_singular() << "_primary";
+		if(human_readable) result << "\n{\n";
+		else result << "{";
+		result << res;
+		if(count_index > 1) throw Exception(Exception::FAIL_GENERATION_ENGINE_MULTKEY,__FILE__,__LINE__);
+		if(human_readable) result << "\n};";
+		else result << "};";
+	}
+	
+	//foreing key
+	
+}
 
 
 

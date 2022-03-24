@@ -62,6 +62,7 @@ public:
 	void container(const char* table,const char* name,const std::list<const char*>& fileds,std::ofstream& result)const;
 	void container(const char* table,const char* name,const std::list<const char*>& fileds,const std::filesystem::path& result)const;
 	
+	void indexs(const Table&,std::ofstream& result)const;
 
 	/**
 	*\brief Genera un motaor de acceso para la tabla indicada

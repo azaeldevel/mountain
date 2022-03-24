@@ -120,6 +120,14 @@ void Table::load(const std::filesystem::path& table)
 		{
 			fields[i_field].pk = false;
 		}
+		if(field.exists("index")) 
+		{
+			 field.lookupValue("index",fields[i_field].index);
+		}
+		else
+		{
+			fields[i_field].index = false;
+		}
 		
 		i_field++;
 	}

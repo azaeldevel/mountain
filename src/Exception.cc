@@ -86,6 +86,10 @@ const char* Exception::what () const throw ()
 		return "No se puede crear un arreglo para el campo indicado";
 	case NOT_SET_TYPE_FIELD:
 		return "No se ha asignado el tipo del campo";
+	case FAIL_GENERATION_ENGINE_MULTKEY:
+		return "Por el momento, los indices y llaves solo puede tener un campo asoiado";
+	case FAIL_GENERATION_ENGINE_NOT_DINAMIC_LENGTH:
+		return "Por el momento, los campos no puede ser de longitud variable";
 	default:
 		return "Error desconocido";
 	}

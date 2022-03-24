@@ -190,11 +190,15 @@ Index Field::get_length()const
 {
 	return length;
 }
-bool Field::get_pk()const
+bool Field::is_pk()const
 {
 	return pk;
 }
-bool Field::get_auto_inc()const
+bool Field::is_index()const
+{
+	return index;
+}
+bool Field::is_auto_inc()const
 {
 	return auto_inc;
 }
