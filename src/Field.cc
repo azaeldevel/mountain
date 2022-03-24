@@ -23,7 +23,7 @@ namespace oct::mont
 {
 
 
-const char* Field::type_cstr(Type type)
+/*const char* Field::type_cstr(Type type)
 {
 	switch(type)
 	{
@@ -96,6 +96,80 @@ bool Field::is_fixed(Type type)
 	}
 	
 	throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+}*/
+bool Field::is_fixed()const
+{
+	switch(type)
+	{
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
+	case Type::CHAR:
+	case Type::SHORT:
+	case Type::UNSIGNED_SHORT:
+	case Type::INT:
+	case Type::UNSIGNED_INT:
+	case Type::FLOAT:
+		return true;
+	case Type::STRING:
+		return false;
+	default:
+		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+	}
+	
+	throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+}
+const char* Field::type_cstr()const
+{
+	switch(type)
+	{
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
+		return "bool";
+	case Type::CHAR:
+		return "char";
+	case Type::SHORT:
+		return "short";
+	case Type::UNSIGNED_SHORT:
+		return "unsigned short";
+	case Type::INT:
+		return "int";
+	case Type::UNSIGNED_INT:
+		return "unsigned int";
+	case Type::FLOAT:
+		return "float";
+	default:
+		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+	}
+	
+	throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+}
+Index Field::type_size()const
+{
+	switch(type)
+	{
+	case Type::NONE:
+		throw Exception(Exception::NOT_SET_TYPE_FIELD,__FILE__,__LINE__);
+	case Type::BOOL:
+		return sizeof(bool);
+	case Type::CHAR:
+		return sizeof(char);
+	case Type::SHORT:
+		return sizeof(short);
+	case Type::UNSIGNED_SHORT:
+		return sizeof(unsigned short);
+	case Type::INT:
+		return sizeof(int);
+	case Type::UNSIGNED_INT:
+		return sizeof(unsigned int);
+	case Type::FLOAT:
+		return sizeof(float);
+	default:
+		throw Exception(Exception::UNKNOW_TYPE_FIELD,__FILE__,__LINE__);
+	}
+	
+	return 0;
 }
 Field::Field() : length(0)
 {
@@ -110,7 +184,7 @@ Field::Type Field::get_type()const
 }
 const char* Field::get_type_cstr()const
 {
-	return type_cstr(type);
+	return type_cstr();
 }
 Index Field::get_length()const
 {

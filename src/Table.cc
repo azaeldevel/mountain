@@ -98,11 +98,11 @@ void Table::load(const std::filesystem::path& table)
 		}
 		if(field.exists("length")) 
 		{
-			fields[i_field].length = ((Index)(unsigned int)field.lookup("length")) * Field::type_size(fields[i_field].type);
+			fields[i_field].length = ((Index)(unsigned int)field.lookup("length")) * fields[i_field].type_size();
 		}
 		else
 		{
-			fields[i_field].length = Field::type_size(fields[i_field].type);		
+			fields[i_field].length = fields[i_field].type_size();		
 		}
 		if(field.exists("pk")) 
 		{

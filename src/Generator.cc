@@ -31,25 +31,81 @@ Generator::Generator(const Database& db) : database(&db)
 }
 
 
-	
-bool Generator::build(std::string& result,bool human_readable)
+void Generator::build(const Field& field,const char* name,std::string& result,bool human_readable)const
 {
+	if(human_readable) result += "\n";
+	if(name) result += name;
+	else result += field.get_type_cstr();
+	result += " ";
+	result += field.get_name();
+	if(field.get_length() != field.type_size())
+	{
+		unsigned int length;
+		length = field.get_length() / field.type_size();
+		result += "[";
+		result += std::to_string(length);
+		result += "]";
+	}
+	result += ";";
+}
+void Generator::build(const Table& table,const char* name, std::string& result,bool human_readable)const
+{
+	result += "\nstruct ";
+	if(name) result += name;
+	else result += table.get_singular();
+	if(human_readable) result += "\n";
+	result += "{";
+	for(const Field& field : table.get_fields())
+	{
+		build(field,NULL,result,human_readable);
+	}
+	if(human_readable) result += "\n";
+	result += "};";
+}
+void Generator::build(const Table& table,const char* name,std::vector<const Field*> fields,std::string& result,bool human_readable)const
+{
+	result += "\nstruct ";
+	if(name) result += name;
+	else result += table.get_singular();
+	if(human_readable) result += "\n";
+	result += "{";
+	for(const Field* field : fields)
+	{
+		build(*field,NULL,result,human_readable);
+	}
+	if(human_readable) result += "\n";
+	result += "};";
+}
+void Generator::build(std::string& result,bool human_readable)const
+{
+	for(const Table& table : database->get_tables())
+	{
+		build(table,NULL,result,human_readable);
+	}
+}
+
+bool Generator::build_engines(std::string& result,bool human_readable)
+{
+	unsigned int count;
 	for(const Table& table : database->get_tables())
 	{
 		result += "\nstruct ";
 		result += table.get_singular();
 		if(human_readable) result += "\n";
 		result += "{";
+		count = 0;
 		for(const Field& field : table.get_fields())
 		{
+			//if(not field)
+			count++;
 			if(human_readable) result += "\n";
 			result += field.get_type_cstr();
 			result += " ";
 			result += field.get_name();
-			if(field.get_length() != Field::type_size(field.get_type()))
+			if(field.get_length() != field.type_size())
 			{
 				unsigned int length;
-				length = field.get_length() / Field::type_size(field.get_type());
+				length = field.get_length() / field.type_size();
 				result += "[";
 				result += std::to_string(length);
 				result += "]";
@@ -62,23 +118,24 @@ bool Generator::build(std::string& result,bool human_readable)
 	
 	return true;
 }
-bool Generator::build(std::ofstream& result,bool human_readable)
+
+
+
+bool Generator::build(std::ofstream& result,bool human_readable)const
 {
 	std::string res;
 	
-	bool ret = build(res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__);
+	build(res,human_readable);
 	
 	result << "\n" << res;
 	
 	return true;
 }
-bool Generator::build(const std::filesystem::path& result,bool human_readable)
+bool Generator::build(const std::filesystem::path& result,bool human_readable)const
 {
 	std::string res;
 	
-	bool ret = build(res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,__FILE__,__LINE__);
+	build(res,human_readable);
 	
 	std::ofstream fres;
 	fres.open(result);	
@@ -88,70 +145,52 @@ bool Generator::build(const std::filesystem::path& result,bool human_readable)
 	
 	return true;
 }
-
-bool Generator::build(const char* table,const std::vector<const char*>& strfileds,const char* name,std::string& result,bool human_readable)
+void Generator::build(const char* strtable,const char* name,const std::vector<const char*>& strfileds,std::string& result,bool human_readable)const
 {
-	std::vector<const Field*> fields;
+	std::vector<const Field*> fields;	
+	if(not maping_fields(strtable,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,strtable,__FILE__,__LINE__);
 	
-	if(not maping_fields(table,strfileds,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
+	const Table* table = database->find(strtable);
+	if(not table)throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__);
 	
-	result = "struct ";
-	result += name;
-	if(human_readable) result += "\n";
-	result += "{";
-	for(unsigned int i = 0; i < fields.size(); i++)
-	{
-		if(not fields[i]) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
-		
-		if(human_readable) result += "\n";
-		result += fields[i]->get_type_cstr();
-		result += " ";
-		result += fields[i]->get_name();
-		if(fields[i]->get_length() != Field::type_size(fields[i]->get_type()))
-		{
-			unsigned int length;
-			length = fields[i]->get_length() / Field::type_size(fields[i]->get_type());
-			result += "[";
-			result += std::to_string(length);
-			result += "]";
-		}
-		result += ";";		
-	}
-	if(human_readable) result += "\n";
-	result += "};";
-	
-	return true; 
+	build(*table,name,fields,result,human_readable);
 }
-bool Generator::build(const char* table,const std::vector<const char*>& fields,const char* name,std::ofstream& result,bool human_readable)
+void Generator::build(const char* strtable,const char* name,const std::vector<const char*>& strfields,std::ofstream& result,bool human_readable) const
 {
 	std::string res;
 	
-	bool ret = build(table,fields,name,res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
+	const Table* table = database->find(strtable);
+	if(not table) throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__);
+	
+	std::vector<const Field*> fields;	
+	if(not maping_fields(strtable,strfields,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,strtable,__FILE__,__LINE__);
+	
+	build(*table,name,fields,res,human_readable);
 	
 	result << "\n" << res;
-	
-	return true;
 }
 
 
-bool Generator::build(const char* table,const std::vector<const char*>& fields,const char* name,const std::filesystem::path& result,bool human_readable)
+void Generator::build(const char* strtable,const char* name,const std::vector<const char*>& strfields,const std::filesystem::path& result,bool human_readable)const
 {
 	std::string res;
 	
-	bool ret = build(table,fields,name,res,human_readable);
-	if(not ret) throw Exception(Exception::FAIL_BUILD_GENERATION,table,__FILE__,__LINE__);
+	const Table* table = database->find(strtable);
+	if(not table)throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__);
+	
+	std::vector<const Field*> fields;	
+	if(not maping_fields(strtable,strfields,fields)) throw Exception(Exception::FAIL_BUILD_GENERATION,strtable,__FILE__,__LINE__);
+	
+	build(*table,name,fields,res,human_readable);
 	
 	std::ofstream fres;
 	fres.open(result);	
 	fres << "\n" << res;
 	fres.flush();
 	fres.close();
-	
-	return true;
 }
 
-bool Generator::maping_fields(const char* strtable,const std::vector<const char*>& strfields,std::vector<const Field*>& result)
+bool Generator::maping_fields(const char* strtable,const std::vector<const char*>& strfields,std::vector<const Field*>& result)const
 {
 	const Table* table = database->find(strtable);
 	if(not table) throw Exception(Exception::NO_FOUND_TABLE,strtable,__FILE__,__LINE__); 

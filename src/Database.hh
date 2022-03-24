@@ -57,6 +57,9 @@ public:
 private:
 	std::string name;
 	std::string singular;
+	/**
+	*\brief Cantidad de registros
+	*/
 	Index length;
 	std::vector<Field> fields;
 };
@@ -77,12 +80,12 @@ public:
 		FLOAT,/*7*/
 		STRING,
 	};
-	static const char* type_cstr(Type);
-	static Index type_size(Type);
+	//static const char* type_cstr(Type);
+	//static Index type_size(Type);
 	/**
 	*\brief determina si el tamano del campo length puede ser deducido a parter de type, solo un campo char es variable
 	*/
-	static bool is_fixed(Type);
+	//static bool is_fixed(Type);
 public:
 	Field(const std::filesystem::path&);
 	Field();
@@ -99,6 +102,21 @@ public:
 	bool get_auto_inc()const;
 
 	void load(const std::filesystem::path&);
+
+	/**
+	*\brief determina si el tamano del campo length puede ser deducido a parter de type, solo un campo char es variable
+	*/
+	bool is_fixed()const;
+
+	/**
+	*\brief genere el string que representa el tipo de dato en C
+	*/
+	const char* type_cstr()const;
+
+	/**
+	*\brief valor retornado por el operador ziseof para el tipo de dato
+	*/
+	Index type_size()const;
 
 private:
 	std::string name;
@@ -125,6 +143,10 @@ private:
 	oct::core::Semver version;
 	std::string name;
 	std::vector<Table> tables;
+
+	/**
+	*\brief Cantidad de tablas
+	*/
 	Index length;
 };
 
