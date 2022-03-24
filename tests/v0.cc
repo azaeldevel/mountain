@@ -115,5 +115,12 @@ void testDeveloping()
 	std::filesystem::path pathcontainer1 = "gen1.hh";
 	if(std::filesystem::exists(pathcontainer1)) std::filesystem::remove(pathcontainer1);
 	gen.container(pathcontainer1);
+	
+	std::filesystem::path engines_path1 = "engines1.hh";
+	std::ofstream engines_file1;
+	engines_file1.open(engines_path1);
+	gen.engines(engines_file1);
+	engines_file1.flush();
+	engines_file1.close();
 }
 

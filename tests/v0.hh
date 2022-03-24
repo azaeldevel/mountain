@@ -5,6 +5,7 @@
 
 #include <CUnit/Basic.h>
 #include <iostream>
+#include <fstream>
 
 #include "../src/Database.hh"
 #include "../src/Generator.hh"

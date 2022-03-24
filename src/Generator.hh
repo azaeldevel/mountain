@@ -39,16 +39,18 @@ class Generator
 public:
 	Generator(const Database& db,jup::Jupiter::Lingua);
 	
-
-	
 	void container(const Field&,const char* name,std::string& result)const;
+	void container(const Field&,const char* name,std::ofstream& result)const;
 	void container(const Table&,const char* name,std::string& result)const;
-	void container(std::string& result)const;
+	void container(const Table&,const char* name,std::ofstream& result)const;
 	
-	void container(std::ofstream& result,bool human_readable)const;
+	void container(std::string& result)const;
+	void container(std::ofstream& result)const;
 	void container(const std::filesystem::path& result)const;
 
 	void container(const Table&,const char* name,std::list<const Field*>,std::string& result)const;
+	void container(const Table&,const char* name,std::list<const Field*>,std::ofstream& result)const;
+
 	/**
 	*\brief Genera contenedor para los campos especificados
 	*\param table nombre de la table
@@ -65,8 +67,8 @@ public:
 	*\brief Genera un motaor de acceso para la tabla indicada
 	*\param table nombre de la table
 	*/
-	void engine(const Table&,std::ofstream& result)const;
-	void engine(const char* table,const char* name,const std::list<const char*>& fileds,std::string& result,bool human_readable)const;
+	void engines(std::ofstream& result)const;
+	void engines(const Table&,std::ofstream& result)const;
 
 private:
 
@@ -77,12 +79,13 @@ private:
 public:
 	bool human_readable;
 	std::string prefix;
+	std::filesystem::path header;
+	std::filesystem::path source;
+	std::filesystem::path containers;
+	
 private:
 	const Database* const database;
 	jup::Jupiter::Lingua lingua;
-	std::string prefix_name_file;
-	std::filesystem::path header;
-	std::filesystem::path source;
 };
 
 }
