@@ -27,6 +27,13 @@
 namespace oct::mont
 {
 
+struct field_alias
+{
+	const char* field;
+	const char* alias;
+};
+
+
 class Generator
 {
 public:
@@ -34,17 +41,14 @@ public:
 	
 
 	
-	void build(const Field&,const char* name,std::string& result,bool human_readable)const;
-	void build(const Table&,const char* name,std::string& result,bool human_readable)const;
-	void build(std::string& result,bool human_readable)const;
-	bool build_engines(std::string& result,bool human_readable);
+	void container(const Field&,const char* name,std::string& result,bool human_readable)const;
+	void container(const Table&,const char* name,std::string& result,bool human_readable)const;
+	void container(std::string& result,bool human_readable)const;
 	
-	bool build(std::ofstream& result,bool human_readable)const;
-	bool build(const std::filesystem::path& result,bool human_readable)const;
+	void container(std::ofstream& result,bool human_readable)const;
+	void container(const std::filesystem::path& result,bool human_readable)const;
 
-
-	void build(const Table&,const char* name,std::vector<const Field*>,std::string& result,bool human_readable)const;
-
+	void container(const Table&,const char* name,std::vector<const Field*>,std::string& result,bool human_readable)const;
 	/**
 	*\brief Genera contenedor para los campos especificados
 	*\param table nombre de la table
@@ -52,11 +56,11 @@ public:
 	*\param result variable donde se coloca el resutado
 	*\param human_readable true para usar una notacion indentada, false usara notacion mas eficiente para la manipuacion del sistema
 	*/
-	void build(const char* table,const char* name,const std::vector<const char*>& fileds,std::string& result,bool human_readable)const;	
-	void build(const char* table,const char* name,const std::vector<const char*>& fileds,std::ofstream& result,bool human_readable)const;
-	void build(const char* table,const char* name,const std::vector<const char*>& fileds,const std::filesystem::path& result,bool human_readable)const;
+	void container(const char* table,const char* name,const std::vector<const char*>& fileds,std::string& result,bool human_readable)const;	
+	void container(const char* table,const char* name,const std::vector<const char*>& fileds,std::ofstream& result,bool human_readable)const;
+	void container(const char* table,const char* name,const std::vector<const char*>& fileds,const std::filesystem::path& result,bool human_readable)const;
 	
-	
+	void engine(const char* table,const char* name,const std::vector<const char*>& fileds,std::string& result,bool human_readable)const;
 	
 private:
 
