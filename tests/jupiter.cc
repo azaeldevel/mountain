@@ -26,4 +26,5 @@ void jupiter_developing()
 	if(std::filesystem::exists(jupiter.directory)) std::filesystem::remove_all(jupiter.directory);
 	
 	CU_ASSERT(jupiter.generate());
+	
 }

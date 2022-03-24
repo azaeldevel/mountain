@@ -81,7 +81,7 @@ void testDeveloping()
 	std::string strcontainer;
 	Generator gen(db);
 	gen.build("Persons",fields,"testPersons",strcontainer,false);
-	//std::cout << strcontainer << "\n";
+	std::cout << strcontainer << "\n";
 	if(result_pattern.compare(strcontainer) == 0) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	
@@ -105,5 +105,13 @@ void testDeveloping()
 	{
 		CU_ASSERT( ex.code() == Exception::NO_FOUND_FIELD);
 	}
+	
+	std::string strcontainer4;
+	CU_ASSERT(gen.build(strcontainer4,false));
+	//std::cout << strcontainer4 << "\n";
+	
+	std::filesystem::path pathcontainer1 = "gen1.hh";
+	if(std::filesystem::exists(pathcontainer1)) std::filesystem::remove(pathcontainer1);
+	CU_ASSERT(gen.build(pathcontainer1,false));
 }
 

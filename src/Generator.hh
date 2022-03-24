@@ -31,6 +31,10 @@ class Generator
 {
 public:
 	Generator(const Database& db);
+	
+	bool build(std::string& result,bool human_readable);
+	bool build(std::ofstream& result,bool human_readable);
+	bool build(const std::filesystem::path& result,bool human_readable);
 	/**
 	*\brief Genera contenedor para los campos especificados
 	*\param table nombre de la table
@@ -40,12 +44,14 @@ public:
 	*/
 	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::string& result,bool human_readable);	
 	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::ofstream& result,bool human_readable);
-	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,std::filesystem::path& result,bool human_readable);
+	bool build(const char* table,const std::vector<const char*>& fileds,const char* name,const std::filesystem::path& result,bool human_readable);
+	
+	
 	
 private:
+	
 	/**
 	*\brief Mapea el nombre del campo con el objeto Field
-	*
 	*/
 	bool maping_fields(const char*,const std::vector<const char*>&,std::vector<const Field*>& result);
 
